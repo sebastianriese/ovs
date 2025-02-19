@@ -611,12 +611,12 @@ ovsdb_cs_db_add_event(struct ovsdb_cs_db *db, enum ovsdb_cs_event_type type)
  *
  * Initializes 'events' with a list of events that occurred on 'cs'.  The
  * caller must process and destroy all of the events. */
-void
+int
 ovsdb_cs_run(struct ovsdb_cs *cs, struct ovs_list *events)
 {
     ovs_list_init(events);
     if (!cs->session) {
-        return;
+        return EINVAL;
     }
 
     ovsdb_cs_send_cond_change(cs);
@@ -666,6 +666,12 @@ ovsdb_cs_run(struct ovsdb_cs *cs, struct ovs_list *events)
     }
 
     ovs_list_push_back_all(events, &cs->data.events);
+
+    if (ret == EAGAIN) {
+        return EAGAIN;
+    } else {
+        return 0;
+    }
 }
 
 /* Arranges for poll_block() to wake up when ovsdb_cs_run() has something to
