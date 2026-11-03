@@ -89,6 +89,7 @@ void vconn_wait(struct vconn *, enum vconn_wait_type);
 void vconn_connect_wait(struct vconn *);
 void vconn_recv_wait(struct vconn *);
 void vconn_send_wait(struct vconn *);
+int vconn_needs_probes(struct vconn *);
 
 /* Passive vconns: virtual listeners for incoming OpenFlow connections. */
 int pvconn_verify_name(const char *name);

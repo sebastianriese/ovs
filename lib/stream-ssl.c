@@ -843,6 +843,12 @@ ssl_wait(struct stream *stream, enum stream_wait_type wait)
     }
 }
 
+static int
+ssl_needs_probes(struct stream *stream OVS_UNUSED)
+{
+    return true;
+}
+
 const struct stream_class ssl_stream_class = {
     "ssl",                      /* name */
     true,                       /* needs_probes */
@@ -854,6 +860,7 @@ const struct stream_class ssl_stream_class = {
     ssl_run,                    /* run */
     ssl_run_wait,               /* run_wait */
     ssl_wait,                   /* wait */
+    ssl_needs_probes,           /* needs_probes_instance */
 };
 
 /* Passive SSL/TLS. */

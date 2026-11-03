@@ -247,6 +247,12 @@ stream_replay_wait(struct stream *stream, enum stream_wait_type wait)
     }
 }
 
+static int
+stream_replay_needs_probes(struct stream *stream OVS_UNUSED)
+{
+    return false;
+}
+
 const struct stream_class replay_stream_class = {
     "replay",                   /* name */
     false,                      /* needs_probes */
@@ -258,6 +264,7 @@ const struct stream_class replay_stream_class = {
     NULL,                       /* run */
     NULL,                       /* run_wait */
     stream_replay_wait,         /* wait */
+    stream_replay_needs_probes, /* needs_probes_instance */
 };
 
 /* Passive replay stream. */

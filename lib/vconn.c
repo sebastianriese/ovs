@@ -372,6 +372,12 @@ vconn_get_version(const struct vconn *vconn)
     return vconn->version ? vconn->version : -1;
 }
 
+int
+vconn_needs_probes(struct vconn *vconn)
+{
+    return (vconn->vclass->needs_probes)(vconn);
+}
+
 /* By default, a vconn accepts only OpenFlow messages whose version matches the
  * one negotiated for the connection.  A message received with a different
  * version is an error that causes the vconn to drop the connection.
