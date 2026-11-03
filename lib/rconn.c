@@ -372,6 +372,9 @@ rconn_connect_unreliably(struct rconn *rc,
     rconn_disconnect__(rc);
     rconn_set_target__(rc, vconn_get_name(vconn), name);
     rc->reliable = false;
+    if (!vconn_needs_probes(vconn)) {
+        rc->probe_interval = 0;
+    }
     rc->vconn = vconn;
     state_transition(rc, S_CONNECTING);
     ovs_mutex_unlock(&rc->mutex);

@@ -479,6 +479,11 @@ stream_get_peer_id(const struct stream *stream)
     return stream->peer_id;
 }
 
+int
+stream_needs_probes(struct stream *stream) {
+    return (stream->class->needs_probes_instance)(stream);
+}
+
 /* Given 'name', a pstream name in the form "TYPE:ARGS", stores the class
  * named "TYPE" into '*classp' and returns 0.  Returns EAFNOSUPPORT and stores
  * a null pointer into '*classp' if 'name' is in the wrong form or if no such

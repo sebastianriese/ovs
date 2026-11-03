@@ -280,6 +280,13 @@ vconn_stream_wait(struct vconn *vconn, enum vconn_wait_type wait)
         OVS_NOT_REACHED();
     }
 }
+
+static int
+vconn_stream_needs_probes(struct vconn *vconn)
+{
+    struct vconn_stream *s = vconn_stream_cast(vconn);
+    return stream_needs_probes(s->stream);
+}
 
 /* Passive stream socket vconn. */
 
@@ -371,6 +378,7 @@ pvconn_pstream_wait(struct pvconn *pvconn)
             vconn_stream_run,                       \
             vconn_stream_run_wait,                  \
             vconn_stream_wait,                      \
+            vconn_stream_needs_probes,              \
     }
 
 #define PSTREAM_INIT(NAME)                          \

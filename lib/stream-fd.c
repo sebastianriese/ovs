@@ -162,6 +162,16 @@ fd_wait(struct stream *stream, enum stream_wait_type wait)
     }
 }
 
+static int
+fd_needs_probes(struct stream *stream)
+{
+    struct stream_fd *s = stream_fd_cast(stream);
+    if (s->fd_type == AF_UNIX) {
+        return false;
+    }
+    return true;
+}
+
 static const struct stream_class stream_fd_class = {
     "fd",                       /* name */
     false,                      /* needs_probes */
@@ -173,6 +183,7 @@ static const struct stream_class stream_fd_class = {
     NULL,                       /* run */
     NULL,                       /* run_wait */
     fd_wait,                    /* wait */
+    fd_needs_probes,            /* needs_probes_instance */
 };
 
 /* Passive file descriptor stream. */
