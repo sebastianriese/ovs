@@ -379,6 +379,7 @@ rconn_connect_unreliably(struct rconn *rc,
     rconn_set_target__(rc, vconn_get_name(vconn), name);
     rc->reliable = false;
     if (!vconn_needs_probes(vconn)) {
+        VLOG_INFO("%s: disabling probes as the stream class does not need them", name);
         rc->probe_interval = 0;
     }
     rc->vconn = vconn;
